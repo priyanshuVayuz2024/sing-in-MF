@@ -1,6 +1,7 @@
 import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { TextField, Button, Box } from "@mui/material";
+import { apiPost, tryCatch } from "../utils";
 
 function SignIn() {
   const {
@@ -9,15 +10,10 @@ function SignIn() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log("Form submitted:", data);
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        email: "abcd@gmail.com",
-        password: "123456",
-      })
-    );
+    await tryCatch(() => apiPost("/api/auth/signIn", data));
+    // await apiPost("/api/signin", data);
   };
 
   return (
